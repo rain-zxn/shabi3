@@ -4,17 +4,19 @@
 <style>
 :root{color-scheme:dark;--text:#edf3ef;--muted:#95a39c;--line:#303c34;--green:#baff75}*{box-sizing:border-box}body{margin:0;background:#101612;color:var(--text);font:14px/1.6 system-ui,-apple-system,"PingFang SC",sans-serif}main{max-width:480px;margin:6vh auto;padding:26px;background:#18201b;border:1px solid var(--line);border-radius:18px}header,.subline,.actions,.quota,.balances{display:flex;justify-content:space-between;align-items:center;gap:12px}h1{font-size:25px;letter-spacing:-1px;margin:0;font-weight:650}.subline{margin-top:14px;font-size:11px;color:var(--muted);flex-wrap:wrap}#account{overflow-wrap:anywhere}.timer-panel{text-align:center;padding:30px 0 24px}.muted{color:var(--muted);font-size:11px}#countdown{font:52px/1.5 ui-monospace,monospace;letter-spacing:-2px;color:var(--green);font-variant-numeric:tabular-nums}.quota{padding:15px 0 22px;border-top:1px solid var(--line);font-size:11px;color:var(--muted)}.quota b{display:block;color:var(--text);font-weight:500;font-size:18px}.quota>span:last-child{text-align:right}label{display:block;font-size:13px}.amount-field{display:flex;align-items:center;gap:12px;background:#101612;border:1px solid var(--line);border-radius:10px;padding:12px 14px;margin-top:8px}.amount-field:focus-within{border-color:var(--green)}.amount-field input{font:24px ui-monospace,monospace;min-width:0;width:100%;border:0;outline:0;background:none;color:var(--text)}.amount-field span{white-space:nowrap;color:var(--green)}.balances{font-size:10px;color:var(--muted);flex-wrap:wrap;gap:5px;margin:11px 0 20px}.balances b{color:var(--text);font-weight:400}button{font:500 12px system-ui;color:var(--text);background:#263129;border:1px solid #3b4b3f;border-radius:9px;padding:11px 14px;cursor:pointer}button:hover:not(:disabled){background:#35453a}button:disabled{opacity:.4;cursor:not-allowed}button:focus-visible,input:focus-visible{outline:2px solid var(--green);outline-offset:3px}.actions button{flex:1}.primary{background:var(--green);border-color:var(--green);color:#172312}.primary:hover:not(:disabled){background:#d3ffa7}.schedule{border-top:1px solid var(--line);margin-top:22px;padding-top:18px}.check{display:flex;gap:8px;align-items:center;font-size:12px;margin-bottom:12px}.check input{accent-color:var(--green);margin:0}#arm{width:100%}#armed:not(:empty){margin-top:8px}footer{font-size:11px;color:var(--muted);margin-top:18px;overflow-wrap:anywhere}#sync:not(:empty){display:block;margin-top:4px}a{color:var(--green)}#alert{align-items:center;justify-content:space-between;display:flex;margin-top:18px;padding:12px;background:#344d25;border-radius:10px}#alert[hidden]{display:none}body.flashing .timer-panel{animation:flash 1s ease-in-out infinite;border-radius:12px}@keyframes flash{50%{background:#baff7530;box-shadow:0 0 25px #baff7540}}@media(prefers-reduced-motion:reduce){body.flashing .timer-panel{animation:none;outline:2px solid var(--green)}}@media(max-width:520px){main{margin:16px 12px;padding:22px}#countdown{font-size:48px}}
 
+.slot-row{display:flex;justify-content:space-between;align-items:center;margin-top:20px}.slot-row label{font-size:11px;color:var(--muted)}select{background:#263129;color:var(--text);border:1px solid var(--line);padding:7px 10px;border-radius:8px}.timer-panel{padding-top:18px}.schedule>.muted{margin-top:6px}
+
 </style>
 </head><body><main>
 <header><h1>ai黑丝</h1><button id="connect">连接钱包</button></header>
 <div class="subline"><span id="network">Anubis · 6714</span><span id="account">钱包未连接</span></div>
-<section class="timer-panel"><span class="muted">零点倒计时 · 北京时间</span><div id="countdown" role="timer">--:--:--</div><div id="target" class="muted">—</div></section>
-<div class="quota"><span>剩余白丝 <b id="remaining">—</b></span><span>每日额度 <b id="cap">—</b></span></div>
+<div class="slot-row"><label for="slot">场次 · 北京时间</label><select id="slot"><option value="next">最近一场</option><option value="midnight">00:00 场</option><option value="noon">12:00 场</option></select></div><section class="timer-panel"><span class="muted">开场倒计时 · 北京时间</span><div id="countdown" role="timer">--:--:--</div><div id="target" class="muted">—</div></section>
+<div class="quota"><span>剩余白丝 <b id="remaining">—</b></span><span>链上日上限 <b id="cap">—</b></span></div>
 <label for="amount">贡献黑丝</label><div class="amount-field"><input id="amount" inputmode="decimal" autocomplete="off" placeholder="输入数量"><span>白丝</span></div>
 <div class="balances"><span>余额 <b id="balance">—</b></span><span>已授权 <b id="allowance">—</b></span><span>手续费白丝 <b id="gasbalance">—</b></span></div>
 <div class="actions"><button id="approve" disabled>授权白丝</button><button id="contribute" class="primary" disabled>贡献ai黑丝</button></div>
-<section class="schedule"><label class="check"><input type="checkbox" id="auto">零点抢入 · 钱包确认</label><button id="arm" disabled>开启零点提醒</button><div id="armed" class="muted"></div></section>
-<section id="alert" hidden><strong>零点到了</strong><button id="silence">停止提醒</button></section>
+<section class="schedule"><label class="check"><input type="checkbox" id="auto">到点抢入 · 钱包确认</label><button id="arm" disabled>开启到点提醒</button><div id="armed" class="muted"></div><div class="muted">到点等待链上额度，最多 5 分钟</div></section>
+<section id="alert" hidden><strong>时间到了</strong><button id="silence">停止提醒</button></section>
 <footer><div id="status" role="status" aria-live="polite">连接中…</div><span id="sync"></span><a id="transaction" target="_blank" rel="noreferrer" hidden>查看交易 ↗</a></footer>
 </main>
 <script>
@@ -23,7 +25,7 @@ const __$G=typeof globalThis!=="undefined"?globalThis:typeof window!=="undefined
 <script>
 (function(root){
   const E=typeof module==='object'?require('./vendor/ethers.umd.min.js'):root.ethers;
-  const C=Object.freeze({chainId:6714,chainHex:'0x1a3a',rpc:'https://rpc.anubispace.org',explorer:'https://browser.anubispace.org',dai:'0x83fd06F0846d9D90B3016bF670Efe2E0B11cDe14',ledger:'0x9E68F61E2615cc1D2C4a2D0026bFc1EBFdf68C1b',implementation:'0x0dEDb657396aE650B8dDd6D73d089Bf4271a2A14',clock:'0x6c5352e15a8327c3f44898fe220100edc2989c58',clockImplementation:'0x30C5503DbE958CB126aD04e3a204f3931e972942',implementationSlot:'0x360894a13ba1a3210667c828492db98dca3e2076cc3735a920a3ca505d382bbc',opensAt:1790571600});
+  const C=Object.freeze({chainId:6714,chainHex:'0x1a3a',rpc:'https://rpc.anubispace.org',explorer:'https://browser.anubispace.org',dai:'0x83fd06F0846d9D90B3016bF670Efe2E0B11cDe14',ledger:'0x9E68F61E2615cc1D2C4a2D0026bFc1EBFdf68C1b',implementation:'0x8CF97ed9EF8d876FEBCF35Ae275e188a00e77236',clock:'0x6c5352e15a8327c3f44898fe220100edc2989c58',clockImplementation:'0x30C5503DbE958CB126aD04e3a204f3931e972942',implementationSlot:'0x360894a13ba1a3210667c828492db98dca3e2076cc3735a920a3ca505d382bbc',opensAt:1790571600});
   const tokenABI=new E.Interface(['function approve(address,uint256) returns(bool)','function balanceOf(address) view returns(uint256)','function allowance(address,address) view returns(uint256)','function decimals() view returns(uint8)']);
   const ledgerABI=new E.Interface(['function participate(uint256)','function clock() view returns(address)','function dai() view returns(address)','function depositsOpen() view returns(bool)','function dailyDaiDepositCap() view returns(uint256)']);
   const clockABI=new E.Interface(['function genesis() view returns(uint256)','function currentDay() view returns(uint256)','function dayStart(uint256) view returns(uint256)']);
@@ -31,14 +33,21 @@ const __$G=typeof globalThis!=="undefined"?globalThis:typeof window!=="undefined
   function approveTx(n){return {to:C.dai,data:tokenABI.encodeFunctionData('approve',[C.ledger,n]),value:'0x0'};}
   function contributeTx(n){return {to:C.ledger,data:ledgerABI.encodeFunctionData('participate',[n]),value:'0x0'};}
   function remaining(cap,used,lastDay,day){return cap===0n?null:cap-(lastDay===day?(used>cap?cap:used):0n);}
-  const api={C,tokenABI,ledgerABI,clockABI,amount,approveTx,contributeTx,remaining};
+  function nextOpening(timestamp,dayStart,nextDay,mode='next'){
+    if(nextDay-dayStart!==86400)throw Error('链上日周期已改变，请重新核查');
+    const noon=dayStart+43200;
+    if(mode==='midnight')return nextDay;
+    if(mode==='noon')return timestamp<noon?noon:nextDay+43200;
+    return timestamp<noon?noon:nextDay;
+  }
+  const api={C,tokenABI,ledgerABI,clockABI,amount,approveTx,contributeTx,remaining,nextOpening};
   if(typeof module==='object')module.exports=api;else root.Contribution=api;
 })(typeof globalThis!=='undefined'?globalThis:this);
 
 </script>
 <script>
 'use strict';
-const {C,tokenABI,ledgerABI,clockABI,amount,approveTx,contributeTx,remaining}=Contribution;
+const {C,tokenABI,ledgerABI,clockABI,amount,approveTx,contributeTx,remaining,nextOpening}=Contribution;
 const $=id=>document.getElementById(id);
 const request=new ethers.FetchRequest(C.rpc);request.timeout=10000;
 const rpc=new ethers.JsonRpcProvider(request,C.chainId,{batchMaxCount:30,cacheTimeout:0});
@@ -48,11 +57,11 @@ const same=(a,b)=>String(a).toLowerCase()===String(b).toLowerCase();
 const beijing=t=>new Intl.DateTimeFormat('zh-CN',{timeZone:'Asia/Shanghai',year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false}).format(new Date(t*1000));
 function fmt(n){if(n>0n&&n<10000000000n)return '<0.00000001';const [a,b='']=ethers.formatUnits(n,18).split('.');return Number(a).toLocaleString('en-US')+(b.replace(/0+$/,'')?'.'+b.replace(/0+$/,'').slice(0,8):'');}
 function log(message,hash){$('status').textContent=message;if(hash){$('transaction').textContent='查看交易 ↗';$('transaction').href=C.explorer+'/tx/'+hash;$('transaction').hidden=false;}}
-function errorText(e){const message=e.reason||e.shortMessage||e.info?.error?.message||e.message||String(e);if(e.code===4001||e.code==='ACTION_REJECTED')return '已取消钱包请求';if(message.includes('daily DAI deposit cap reached'))return '本日贡献额度已满，请等待下一次重置';return message.replace(/DAI/g,'白丝').replace(/AiLGNS/gi,'ai黑丝');}
+function errorText(e){const message=e.reason||e.shortMessage||e.info?.error?.message||e.message||String(e);if(e.code===4001||e.code==='ACTION_REJECTED')return '已取消钱包请求';if(message.includes('daily DAI deposit cap reached'))return '链上额度不足，等待释放';return message.replace(/DAI/g,'白丝').replace(/AiLGNS/gi,'ai黑丝');}
 function render(){let n=0n;try{n=amount($('amount').value);}catch{}const fresh=state&&Date.now()-state.fetched<20000;const ready=!!account&&fresh&&!busy;
   $('approve').disabled=!ready||!n||walletAllowance>=n;$('contribute').disabled=!ready||!n||walletAllowance<n||walletBalance<n||nativeBalance===0n||!state?.open||state.timestamp<C.opensAt||(state.remaining!==null&&state.remaining<n);
-  $('connect').disabled=busy;$('amount').disabled=busy;$('auto').disabled=busy||!!armed;$('arm').disabled=busy||(!armed&&!fresh);
-  $('arm').textContent=armed?'取消零点任务':'开启零点提醒';
+  $('slot').disabled=busy||!!armed;$('connect').disabled=busy;$('amount').disabled=busy;$('auto').disabled=busy||!!armed;$('arm').disabled=busy||(!armed&&!fresh);
+  $('arm').textContent=armed?'取消预约':'开启到点提醒';
   if(armed){$('armed').textContent='已开启：'+beijing(armed.target)+(armed.auto?' · '+fmt(armed.amount)+' 白丝':' · 仅提醒');}
 }
 async function ethCall(to,iface,method,args,tag){const data=iface.encodeFunctionData(method,args);return iface.decodeFunctionResult(method,await rpc.send('eth_call',[{to,data},tag]))[0];}
@@ -65,21 +74,22 @@ async function readState(){if(refreshing)return refreshing;refreshing=(async()=>
   ]);
   if(Number(chain)!==C.chainId)throw Error('RPC 网络编号不匹配');
   if(!same('0x'+impl.slice(-40),C.implementation)||!same('0x'+clockImpl.slice(-40),C.clockImplementation)||!same(dai,C.dai)||!same(clock,C.clock)||decimals!==18n)throw Error('合约实现或配置已变化，交易已停止，请重新核查');
-  const next=Number(await ethCall(C.clock,clockABI,'dayStart',[day+1n],tag));
+  const [start,end]=await Promise.all([ethCall(C.clock,clockABI,'dayStart',[day||1n],tag),ethCall(C.clock,clockABI,'dayStart',[day+1n],tag)]);
+  const next=nextOpening(Number(block.timestamp),Number(start),Number(end),$('slot').value);
   let balances=null;if(who)balances=await Promise.all([ethCall(C.dai,tokenABI,'balanceOf',[who],tag),ethCall(C.dai,tokenABI,'allowance',[who,C.ledger],tag),rpc.send('eth_getBalance',[who,tag])]);
   if(version!==session)return;
-  state={timestamp:Number(block.timestamp),block:tag,next,day,open,cap,remaining:remaining(cap,BigInt(used),BigInt(lastDay),day),minimum:BigInt(min),fetched:Date.now()};
+  state={timestamp:Number(block.timestamp),block:tag,next,dayStart:Number(start),nextDay:Number(end),day,open,cap,remaining:remaining(cap,BigInt(used),BigInt(lastDay),day),minimum:BigInt(min),fetched:Date.now()};
   if(balances){[walletBalance,walletAllowance]=balances;nativeBalance=BigInt(balances[2]);$('balance').textContent=fmt(walletBalance);$('allowance').textContent=fmt(walletAllowance);$('gasbalance').textContent=fmt(nativeBalance);}
   $('network').textContent='● Anubis · 6714';$('cap').textContent=cap===0n?'无限额':fmt(cap);$('remaining').textContent=state.remaining===null?'无限额':fmt(state.remaining);$('target').textContent=beijing(armed?.target||next);$('sync').textContent=open?'':'贡献已关闭';if($('status').textContent==='连接中…')$('status').textContent='已就绪';
   return state;
 }catch(e){state=null;$('network').textContent='RPC / 合约检查失败';$('sync').textContent=errorText(e);if(armed)disarm('连接失败，预约已取消');throw e;}finally{refreshing=null;render();}})();return refreshing;}
-function disarm(message){armed=null;$('armed').textContent=message||'零点任务已取消';render();}
+function disarm(message){armed=null;$('armed').textContent=message||'预约已取消';render();}
 function resetWallet(message){session++;account=null;walletBalance=0n;walletAllowance=0n;nativeBalance=0n;$('account').textContent='钱包未连接';for(const id of ['balance','allowance','gasbalance'])$(id).textContent='—';disarm(message);log(message);}
 async function connect(){if(busy)return;busy=true;render();try{wallet=window.ethereum;if(!wallet)throw Error('未检测到钱包扩展，请用安装了 MetaMask / Rabby 的浏览器打开本地网址');await wallet.request({method:'eth_requestAccounts'});
   try{await wallet.request({method:'wallet_switchEthereumChain',params:[{chainId:C.chainHex}]});}catch(e){if(e.code!==4902)throw e;await wallet.request({method:'wallet_addEthereumChain',params:[{chainId:C.chainHex,chainName:'Anubis Chain',nativeCurrency:{name:'gasDAI',symbol:'DAI',decimals:18},rpcUrls:[C.rpc],blockExplorerUrls:[C.explorer]}]});await wallet.request({method:'wallet_switchEthereumChain',params:[{chainId:C.chainHex}]});}
   if(Number(await wallet.request({method:'eth_chainId'}))!==C.chainId)throw Error('请切换到 Anubis Chain 6714');
   const accounts=await wallet.request({method:'eth_accounts'});if(!accounts[0])throw Error('钱包未提供账户');account=ethers.getAddress(accounts[0]);session++;$('account').textContent=account;log('钱包已连接');
-  if(!wallet.__ailgnsListeners){wallet.on?.('accountsChanged',()=>resetWallet('钱包账户改变，请重新连接并开启零点任务'));wallet.on?.('chainChanged',()=>resetWallet('钱包网络改变，请重新连接并开启零点任务'));wallet.on?.('disconnect',()=>resetWallet('钱包已断开'));wallet.__ailgnsListeners=true;}
+  if(!wallet.__ailgnsListeners){wallet.on?.('accountsChanged',()=>resetWallet('钱包账户改变，请重新连接并开启预约'));wallet.on?.('chainChanged',()=>resetWallet('钱包网络改变，请重新连接并开启预约'));wallet.on?.('disconnect',()=>resetWallet('钱包已断开'));wallet.__ailgnsListeners=true;}
   await readState();
 }finally{busy=false;render();}}
 async function assertWallet(who,version){if(!wallet||!who||session!==version||!same(who,account))throw Error('钱包或金额设置已变化，请重新操作');const [chain,accounts]=await Promise.all([wallet.request({method:'eth_chainId'}),wallet.request({method:'eth_accounts'})]);if(session!==version||!same(account,who)||Number(chain)!==C.chainId||!same(accounts[0],who))throw Error('钱包账户或网络不匹配');}
@@ -98,14 +108,23 @@ async function send(kind,fixedAmount,fixedAccount){if(busy)throw Error('已有�
 }
 async function unlockAudio(){const Audio=window.AudioContext||window.webkitAudioContext;if(!Audio)throw Error('此浏览器不支持声音提醒');audio=audio||new Audio();await audio.resume();beep();}
 function beep(){if(!audio||audio.state!=='running')return;for(let i=0;i<3;i++){const o=audio.createOscillator(),g=audio.createGain(),t=audio.currentTime+i*.22;o.frequency.value=740+i*180;o.connect(g);g.connect(audio.destination);g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(.13,t+.02);g.gain.exponentialRampToValueAtTime(.001,t+.17);o.start(t);o.stop(t+.2);}}
-function alarm(){if(soundTimer)return;$('alert').hidden=false;document.body.classList.add('flashing');beep();soundTimer=setInterval(beep,1500);log('零点已到');}
+function alarm(){if(soundTimer)return;$('alert').hidden=false;document.body.classList.add('flashing');beep();soundTimer=setInterval(beep,1500);log('时间已到');}
 function silence(){clearInterval(soundTimer);soundTimer=null;$('alert').hidden=true;document.body.classList.remove('flashing');}
 async function arm(){if(armed){disarm();return;}if(busy)return;busy=true;render();try{await unlockAudio();await readState();if(!state)throw Error('无法读取链上时间');const automatic=$('auto').checked;let n=null;if(automatic){n=amount($('amount').value);await assertWallet(account,session);if(walletBalance<n)throw Error('DAI 余额不足');if(walletAllowance<n)throw Error('请先点击授权 白丝，并等待成功');if(!state.open)throw Error('贡献开关已关闭');if(nativeBalance===0n)throw Error('需要原生 白丝 支付 Gas');if(n<state.minimum)throw Error('金额低于合约最低要求');}
-  armed={target:state.next,auto:automatic,amount:n,account,alerted:false};log(automatic?'已预约 '+fmt(n)+' 白丝':'提醒已开启');render();}finally{busy=false;render();}}
-async function poll(){try{await readState();if(armed&&state&&state.timestamp>=armed.target){const task=armed;if(!task.alerted){alarm();task.alerted=true;}disarm('已触发');if(task.auto)await send('contribute',task.amount,task.account);}}catch(e){$('status').textContent=errorText(e);}finally{const near=armed&&armed.target*1000-Date.now()<45000;pollTimer=setTimeout(poll,near?1000:5000);}}
+  armed={target:state.next,expires:state.next+300,auto:automatic,amount:n,account,session,alerted:false};log(automatic?'已预约 '+fmt(n)+' 白丝':'提醒已开启');render();}finally{busy=false;render();}}
+async function poll(){try{await readState();if(armed&&state&&state.timestamp>=armed.target){
+  const task=armed;if(!task.alerted){alarm();task.alerted=true;}
+  if(!task.auto){disarm('提醒已触发');}
+  else if(task.session!==session||!same(task.account,account)){disarm('账户改变，预约已取消');}
+  else if(state.timestamp>=task.expires){disarm('本场等待结束');log('5 分钟内未能发起贡献，请手动检查');}
+  else if(state.open&&state.timestamp>=C.opensAt&&(state.remaining===null||state.remaining>=task.amount)&&!busy){disarm('已触发');await send('contribute',task.amount,task.account);}
+  else {log('时间已到，等待链上额度…');}
+}}catch(e){$('status').textContent=errorText(e);}finally{const near=armed&&armed.target*1000-Date.now()<45000;pollTimer=setTimeout(poll,near?1000:5000);}}
+
 setInterval(()=>{const target=armed?.target||state?.next;if(target){const seconds=Math.max(0,Math.ceil((target*1000-Date.now())/1000));$('countdown').textContent=[Math.floor(seconds/3600),Math.floor(seconds/60)%60,seconds%60].map(v=>String(v).padStart(2,'0')).join(':');if(armed&&!armed.alerted&&Date.now()>=armed.target*1000){armed.alerted=true;alarm();}}render();},100);
 const guard=fn=>async()=>{try{await fn();}catch(e){log(errorText(e));}};
-$('connect').onclick=guard(connect);$('approve').onclick=()=>send('approve');$('contribute').onclick=()=>{disarm('手动贡献已取消零点预约');send('contribute');};$('arm').onclick=guard(arm);$('silence').onclick=silence;
+$('connect').onclick=guard(connect);$('approve').onclick=()=>send('approve');$('contribute').onclick=()=>{disarm('手动贡献已取消预约');send('contribute');};$('arm').onclick=guard(arm);$('silence').onclick=silence;
+$('slot').addEventListener('change',()=>{if(armed)disarm('场次已改变');if(state){state.next=nextOpening(state.timestamp,state.dayStart,state.nextDay,$('slot').value);$('target').textContent=beijing(state.next);}render();});
 $('amount').addEventListener('input',()=>{if(armed)disarm('金额已改变，请重新开启');render();});
 document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible'){clearTimeout(pollTimer);if(!refreshing)poll();}});
 log('连接中…');poll();
